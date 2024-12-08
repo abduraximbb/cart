@@ -2,10 +2,12 @@ import React from "react";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { useStateValue } from "../../context";
 import { IoCartOutline, IoCartSharp } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 const Products = ({ data }) => {
-  const { setWishlist, wishlist, setCount, setCart, cart} = useStateValue();
-  
+  const navigate = useNavigate();
+
+  const { setWishlist, wishlist, setCount, setCart, cart } = useStateValue();
 
   const handleLike = (product) => {
     const index = wishlist.findIndex((item) => item.id === product.id);
@@ -22,8 +24,8 @@ const Products = ({ data }) => {
     const index = cart.findIndex((item) => item.id === product.id);
     if (index < 0) {
       setCart((prev) => [...prev, { ...product, amount: 1 }]);
-    }else{
-      setCart((prev) => prev.filter((item) => item.id !== product.id))
+    } else {
+      setCart((prev) => prev.filter((item) => item.id !== product.id));
     }
   };
 
@@ -34,6 +36,7 @@ const Products = ({ data }) => {
     >
       <div className="w-full h-[180px] relative bg-slate-100">
         <img
+          onClick={() => navigate(`/product/${product.id}`)}
           className="w-full h-full object-contain"
           src={product.thumbnail}
           alt=""
@@ -72,9 +75,6 @@ const Products = ({ data }) => {
   return (
     <div className="container text-center my-24 font-poppins">
       <h2 className="text-[40px] font-[500]">Products</h2>
-      <p className="text-[#5E6E89] text-lg ">
-       Likes list{" "}
-      </p>
       <div className="grid container gap-7 grid-cols-4 mt-[60px] max-lg:grid-cols-2 max-xl:grid-cols-3 max-sm:grid-cols-1">
         {productItems}
       </div>
